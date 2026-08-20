@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CarePulse Twin — Predictive Health Intelligence</title>
+<meta name="description" content="CarePulse Twin — real-time monitoring, predictive health and explainable decisions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f8fb;--ink:#11131a;--muted:#747988;--line:#e6e8ee;--card:#fff;
+  --dark:#090b12;--dark2:#10131d;--violet:#7657ff;--violet2:#a38dff;
+  --cyan:#38c8ff;--green:#28d69b;--red:#ff5964;--amber:#ffb547;
+  --shadow:0 18px 55px rgba(25,27,39,.09);--r:24px;--shell:1240px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:Manrope,system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+button,a{font:inherit;color:inherit}button{border:0;background:none;cursor:pointer}a{text-decoration:none}
+img{max-width:100%;display:block}
+.shell{width:min(var(--shell),calc(100% - 40px));margin:auto}
+.grid-bg{background-image:linear-gradient(rgba(15,18,30,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(15,18,30,.045) 1px,transparent 1px);background-size:44px 44px}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.show{opacity:1;transform:none}
+.pill{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px rgba(40,214,155,.12)}
+header{position:fixed;top:16px;left:0;right:0;z-index:50}
+.nav{height:64px;background:rgba(255,255,255,.78);backdrop-filter:blur(18px);border:1px solid rgba(230,232,238,.9);border-radius:18px;display:flex;align-items:center;justify-content:space-between;padding:0 14px 0 20px;box-shadow:0 8px 30px rgba(20,25,40,.05)}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:-.04em}
+.brand-mark{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,var(--violet),#4b31d9);display:grid;place-items:center;color:white}
+.brand-mark svg{width:17px}
+.navlinks{display:flex;gap:28px;font-size:13px;color:#555a68}
+.navlinks a{transition:.25s}.navlinks a:hover,.navlinks a.active{color:var(--ink)}
+.navright{display:flex;align-items:center;gap:10px}
+.status{display:flex;align-items:center;gap:8px;background:#f4f6f8;border:1px solid var(--line);border-radius:11px;padding:9px 12px;font-size:11px;font-weight:700}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:12px;padding:12px 18px;font-size:13px;font-weight:700;transition:transform .25s,box-shadow .25s,background .25s}
+.btn:hover{transform:translateY(-2px)}
+.btn.primary{background:var(--violet);color:#fff;box-shadow:0 10px 25px rgba(118,87,255,.28)}
+.btn.dark{background:#11131b;color:#fff}.btn.light{background:#fff;color:#111}
+.btn.outline{border:1px solid rgba(255,255,255,.18);color:#fff;background:rgba(255,255,255,.05)}
+.menu-btn{display:none;padding:10px;border:1px solid var(--line);border-radius:10px}
+
+.hero{min-height:850px;padding:150px 0 90px;background:#080a11;color:#fff;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;width:750px;height:750px;right:-220px;top:-240px;background:radial-gradient(circle,rgba(118,87,255,.34),transparent 65%);filter:blur(20px)}
+.hero:after{content:"";position:absolute;left:-200px;bottom:-350px;width:700px;height:700px;background:radial-gradient(circle,rgba(56,200,255,.11),transparent 68%)}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.03fr .97fr;gap:65px;align-items:center}
+.eyebrow{color:#aab0c2;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:22px}
+.eyebrow span{color:var(--violet2)}
+.hero h1{font-size:clamp(46px,5.3vw,78px);line-height:.98;letter-spacing:-.065em;max-width:760px}
+.hero h1 .accent{color:var(--violet2)}
+.hero-copy{margin-top:25px;max-width:590px;color:#a8adbd;font-size:16px;line-height:1.75}
+.hero-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+.trust{display:flex;gap:28px;margin-top:45px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:9px;color:#8d93a4;font-size:11px}
+.trust-icon{width:30px;height:30px;border:1px solid #292d3a;border-radius:10px;display:grid;place-items:center;color:var(--violet2)}
+.monitor{background:linear-gradient(145deg,#121621,#0b0e15);border:1px solid #262a37;border-radius:28px;padding:13px;box-shadow:0 30px 90px rgba(0,0,0,.42)}
+.monitor-top{display:flex;justify-content:space-between;align-items:center;padding:8px 10px 15px}
+.live{display:flex;align-items:center;gap:7px;color:#9ca2b3;font-size:10px;font-weight:700;text-transform:uppercase}
+.patient-id{font-size:11px;color:#777e91}
+.patient-card{background:#171b27;border:1px solid #292e3d;border-radius:20px;padding:20px}
+.patient-head{display:flex;justify-content:space-between;align-items:start}
+.patient-name{font-size:17px;font-weight:800}.patient-meta{font-size:10px;color:#777e91;margin-top:4px}
+.risk{margin:22px 0 18px;display:flex;align-items:end;gap:12px}.risk-number{font-size:54px;line-height:.9;font-weight:800;letter-spacing:-.07em}.risk-label{font-size:10px;color:#ff8a91;background:rgba(255,89,100,.1);border:1px solid rgba(255,89,100,.2);padding:5px 8px;border-radius:999px}
+.spark{height:115px;position:relative;border-radius:14px;background:linear-gradient(180deg,rgba(118,87,255,.14),transparent);overflow:hidden}
+.spark svg{width:100%;height:100%}
+.vitals{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.vital{background:#10131d;border:1px solid #262b38;border-radius:14px;padding:13px}.vital-top{font-size:10px;color:#777e91}.vital-value{font-size:18px;font-weight:800;margin-top:5px}.vital-value em{font-style:normal;font-size:10px;color:#777e91;font-weight:600}
+.hero-foot{position:relative;z-index:2;margin-top:70px;border-top:1px solid #20232d;padding-top:18px;display:flex;justify-content:space-between;color:#656c7d;font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+
+section{padding:110px 0}
+.section-head{max-width:760px;margin-bottom:55px}.section-kicker{font-size:11px;color:var(--violet);font-weight:800;text-transform:uppercase;letter-spacing:.12em;margin-bottom:15px}.section-head h2{font-size:clamp(34px,4vw,54px);line-height:1.03;letter-spacing:-.055em}.section-head p{color:var(--muted);line-height:1.7;margin-top:17px;max-width:650px}
+
+.capabilities{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.cap{background:#fff;border:1px solid var(--line);border-radius:20px;padding:25px;min-height:235px;transition:.3s;box-shadow:0 5px 25px rgba(20,25,40,.025)}
+.cap:hover{transform:translateY(-7px);box-shadow:var(--shadow)}
+.cap-icon{width:42px;height:42px;border-radius:13px;background:#f0edff;color:var(--violet);display:grid;place-items:center;margin-bottom:28px}.cap h3{font-size:17px}.cap p{font-size:12px;color:var(--muted);line-height:1.7;margin-top:9px}.cap a{display:inline-flex;margin-top:20px;color:var(--violet);font-size:11px;font-weight:800}
+
+.live-section{background:#fff}
+.live-panel{background:#090b12;color:#fff;border-radius:28px;padding:22px;box-shadow:0 30px 80px rgba(10,12,20,.12)}
+.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.panel-title{font-size:15px;font-weight:800}.panel-sub{font-size:10px;color:#737a8d;margin-top:4px}.panel-live{font-size:10px;color:#74e6bf;display:flex;align-items:center;gap:7px}
+.analytics-grid{display:grid;grid-template-columns:1.1fr 1.25fr .85fr;gap:12px}
+.chart-card{background:#10131d;border:1px solid #232836;border-radius:18px;padding:17px;min-height:245px}.chart-title{font-size:10px;color:#8d93a4;margin-bottom:13px}.chart-big{font-size:26px;font-weight:800}.chart-big span{font-size:10px;color:#6e7587;margin-left:5px}
+.chart-svg{width:100%;height:145px;margin-top:8px}.explain h4{font-size:12px;margin-bottom:17px}.factor{display:flex;gap:10px;align-items:start;margin:12px 0;font-size:10px;color:#a9afbd;line-height:1.45}.factor b{width:23px;height:23px;border-radius:8px;display:grid;place-items:center;background:rgba(255,89,100,.1);color:#ff727b;flex:none}
+.factor.warn b{background:rgba(255,181,71,.1);color:#ffb547}.factor span strong{color:#fff}
+
+.arch{background:#f1f2f6}.architecture{display:flex;align-items:center;gap:8px;overflow-x:auto;padding-bottom:8px}.arch-node{min-width:145px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 17px;box-shadow:0 8px 30px rgba(20,25,40,.04)}.arch-icon{width:36px;height:36px;border-radius:11px;background:#f0edff;color:var(--violet);display:grid;place-items:center;margin-bottom:15px}.arch-node h4{font-size:12px}.arch-node p{font-size:9px;color:var(--muted);line-height:1.5;margin-top:5px}.arrow{color:#a0a5b2;font-size:18px;flex:none}
+.metrics{background:#090b12;color:#fff;border-radius:28px;padding:45px 30px;display:grid;grid-template-columns:repeat(4,1fr);margin-top:35px}.metric{text-align:center;padding:5px 20px;border-right:1px solid #252936}.metric:last-child{border:0}.metric-number{font-size:42px;font-weight:800;letter-spacing:-.06em}.metric-label{font-size:10px;color:#7e8596;text-transform:uppercase;letter-spacing:.08em;margin-top:7px}
+
+.alert-section{background:#fff}.alert-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.alert-card{border:1px solid var(--line);border-radius:22px;padding:25px;background:#fff}.alert-card.high{border-color:#ffd3d6;background:linear-gradient(145deg,#fff,#fff7f7)}.alert-card.medium{background:#fffbf4;border-color:#ffe5ba}.alert-top{display:flex;justify-content:space-between;align-items:center}.severity{font-size:10px;font-weight:800;letter-spacing:.08em;padding:6px 9px;border-radius:999px}.severity.high{color:#e43c47;background:#fff0f1}.severity.medium{color:#c17b14;background:#fff5df}.alert-time{font-size:10px;color:#969ba7}.alert-card h3{font-size:17px;margin-top:20px}.alert-card p{font-size:12px;color:var(--muted);line-height:1.65;margin-top:7px}.alert-factor-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}.tag{font-size:9px;padding:7px 9px;border:1px solid var(--line);border-radius:999px;color:#626876}
+
+.about{background:#f7f8fb}.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}.about-visual{height:480px;border-radius:30px;background:#090b12;position:relative;overflow:hidden;padding:28px;color:#fff}.about-visual:before{content:"";position:absolute;width:400px;height:400px;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid rgba(118,87,255,.22);border-radius:50%;box-shadow:0 0 0 70px rgba(118,87,255,.03),0 0 0 140px rgba(118,87,255,.025)}.orb{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:145px;height:145px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#a895ff,#5a3ee8 55%,#1d173d);box-shadow:0 0 80px rgba(118,87,255,.55);display:grid;place-items:center;font-weight:800;font-size:15px;z-index:2}.data-chip{position:absolute;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px);border-radius:13px;font-size:9px;color:#b7bdcb;z-index:3}.chip1{left:25px;top:100px}.chip2{right:25px;top:165px}.chip3{left:55px;bottom:95px}.chip4{right:50px;bottom:75px}.about-copy h2{font-size:clamp(35px,4vw,56px);line-height:1.03;letter-spacing:-.06em}.about-copy h2 span{color:#9a9eaa}.about-copy p{font-size:14px;line-height:1.8;color:var(--muted);margin-top:22px;max-width:520px}.about-list{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:30px}.about-list div{border-top:1px solid var(--line);padding-top:13px;font-size:11px;color:#626876}.about-list strong{display:block;color:var(--ink);font-size:12px;margin-bottom:4px}
+
+.cta{padding-top:30px}.cta-panel{background:linear-gradient(135deg,#17112f,#090b12 70%);color:#fff;border-radius:30px;padding:70px;position:relative;overflow:hidden}.cta-panel:after{content:"";position:absolute;width:400px;height:400px;right:-150px;top:-170px;border-radius:50%;background:radial-gradient(circle,rgba(118,87,255,.35),transparent 68%)}.cta-panel>*{position:relative;z-index:2}.cta-panel h2{font-size:clamp(40px,5vw,68px);line-height:1;letter-spacing:-.06em;max-width:720px}.cta-panel p{color:#9ba1b1;max-width:580px;line-height:1.7;margin:18px 0 27px;font-size:14px}
+footer{background:#090b12;color:#fff;margin-top:80px;padding:60px 0 25px}.footer-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:30px;padding-bottom:45px;border-bottom:1px solid #242833}.footer-brand p{color:#7f8697;font-size:11px;line-height:1.7;max-width:300px;margin-top:14px}.footer-col h4{font-size:10px;color:#626a7c;text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px}.footer-col a{display:block;font-size:11px;color:#a0a6b5;margin:10px 0;transition:.2s}.footer-col a:hover{color:#fff;transform:translateX(3px)}.copyright{display:flex;justify-content:space-between;color:#555d6e;font-size:9px;padding-top:20px}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(8,10,17,.65);backdrop-filter:blur(12px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}.modal-backdrop.open{display:flex}.modal{width:min(560px,100%);background:#fff;border-radius:26px;padding:30px;box-shadow:0 35px 100px rgba(0,0,0,.3);animation:modalIn .35s cubic-bezier(.16,1,.3,1)}@keyframes modalIn{from{opacity:0;transform:translateY(25px) scale(.97)}to{opacity:1;transform:none}}.modal-head{display:flex;justify-content:space-between}.close{width:36px;height:36px;background:#f0f1f4;border-radius:50%}.modal h2{font-size:30px;letter-spacing:-.05em;margin-top:20px}.modal p{font-size:12px;color:var(--muted);line-height:1.6;margin:8px 0 20px}.field{margin-top:13px}.field label{font-size:10px;font-weight:800;text-transform:uppercase;color:#777d8a}.field input,.field textarea{width:100%;margin-top:6px;border:1px solid var(--line);background:#f7f8fa;border-radius:12px;padding:12px;font:inherit;font-size:12px;outline:0}.field textarea{height:100px;resize:none}.modal-actions{display:flex;justify-content:flex-end;margin-top:18px}
+
+.toast{position:fixed;right:20px;bottom:20px;background:#11131b;color:#fff;border:1px solid #2b2f3b;border-radius:14px;padding:14px 17px;font-size:11px;z-index:120;opacity:0;transform:translateY(15px);pointer-events:none;transition:.3s}.toast.show{opacity:1;transform:none}
+
+@media(max-width:1024px){
+ .navlinks{display:none}.menu-btn{display:block}.status{display:none}
+ .hero-grid,.about-grid{grid-template-columns:1fr}.hero{padding-top:125px}.hero-grid{gap:45px}.monitor{max-width:650px;width:100%;margin:auto}
+ .capabilities{grid-template-columns:1fr 1fr}.analytics-grid{grid-template-columns:1fr 1fr}.explain{grid-column:span 2}
+ .architecture{justify-content:flex-start}.metrics{grid-template-columns:1fr 1fr;gap:30px}.metric:nth-child(2){border:0}.metric:nth-child(3){border-top:1px solid #252936;padding-top:25px}.metric:nth-child(4){border-top:1px solid #252936;padding-top:25px}
+ .about-visual{height:420px}.footer-grid{grid-template-columns:2fr 1fr 1fr}
+}
+@media(max-width:640px){
+ .shell{width:min(var(--shell),calc(100% - 28px))}.nav{height:58px}.brand{font-size:14px}.hero{min-height:auto;padding:105px 0 50px}.hero h1{font-size:45px}.hero-copy{font-size:13px}.trust{gap:13px}.trust-item{font-size:9px}
+ section{padding:75px 0}.section-head{margin-bottom:35px}.capabilities{grid-template-columns:1fr}.cap{min-height:auto}.analytics-grid{grid-template-columns:1fr}.explain{grid-column:auto}.metrics{grid-template-columns:1fr 1fr;padding:30px 12px}.metric{padding:0 8px;border:0!important}.metric-number{font-size:31px}.metric-label{font-size:8px}.alert-grid{grid-template-columns:1fr}.about-list{grid-template-columns:1fr}.about-visual{height:350px}.cta-panel{padding:40px 25px}.footer-grid{grid-template-columns:1fr 1fr}.footer-brand{grid-column:span 2}.copyright{flex-direction:column;gap:8px}
+ .hero-foot{font-size:8px}.hero-foot span:nth-child(2){display:none}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="shell">
+  <nav class="nav">
+   <a href="#home" class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12h4l2-5 4 10 2-6 2 3h6"/></svg></span>CarePulse Twin</a>
+   <div class="navlinks">
+    <a href="#home" class="active">Home</a><a href="#monitoring">Monitoring</a><a href="#architecture">Architecture</a><a href="#alerts">Alerts</a><a href="#about">About</a>
+   </div>
+   <div class="navright"><div class="status"><span class="dot"></span> System Online</div><button class="btn primary open-modal">Request Demo <span>↗</span></button><button class="menu-btn" id="menuBtn">☰</button></div>
+  </nav>
+ </div>
+</header>
+
+<main>
+<section id="home" class="hero grid-bg">
+ <div class="shell">
+  <div class="hero-grid">
+   <div class="reveal">
+    <div class="eyebrow"><span>AI-Powered Clinical Intelligence</span></div>
+    <h1>Real-Time Monitoring.<br><span class="accent">Predictive Health.</span><br>Explainable Decisions.</h1>
+    <p class="hero-copy">CarePulse Twin continuously observes physiological trends, predicts short-term deterioration risk, and explains the signals driving that risk — helping clinicians focus attention where it matters.</p>
+    <div class="hero-actions"><a href="#monitoring" class="btn primary">Explore Live Monitor ↗</a><button class="btn outline open-modal">Request Demo →</button></div>
+    <div class="trust">
+     <div class="trust-item"><span class="trust-icon">◉</span>Sequence AI</div>
+     <div class="trust-item"><span class="trust-icon">↯</span>Real-Time Stream</div>
+     <div class="trust-item"><span class="trust-icon">✦</span>Explainable Risk</div>
+     <div class="trust-item"><span class="trust-icon">◈</span>Secure by Design</div>
+    </div>
+   </div>
+   <div class="monitor reveal">
+    <div class="monitor-top"><div class="live"><span class="dot"></span> Live Patient</div><div class="patient-id">eICU Replay · P001</div></div>
+    <div class="patient-card">
+     <div class="patient-head"><div><div class="patient-name">Patient P001</div><div class="patient-meta">Streaming physiological state</div></div><span class="severity high">HIGH RISK</span></div>
+     <div class="risk"><div class="risk-number" id="heroRisk">78%</div><div class="risk-label">Deterioration risk</div></div>
+     <div class="spark"><svg viewBox="0 0 600 150" preserveAspectRatio="none"><defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7657ff" stop-opacity=".5"/><stop offset="1" stop-color="#7657ff" stop-opacity="0"/></linearGradient></defs><path d="M0 130 C35 126 45 112 75 115 S120 102 145 108 S180 85 210 92 S245 72 270 79 S310 58 335 69 S365 48 392 55 S425 38 450 49 S480 20 510 35 S545 18 600 12 L600 150 L0 150Z" fill="url(#g)"/><path d="M0 130 C35 126 45 112 75 115 S120 102 145 108 S180 85 210 92 S245 72 270 79 S310 58 335 69 S365 48 392 55 S425 38 450 49 S480 20 510 35 S545 18 600 12" fill="none" stroke="#a38dff" stroke-width="3"/></svg></div>
+     <div class="vitals">
+      <div class="vital"><div class="vital-top">Heart Rate</div><div class="vital-value" id="hr">112 <em>bpm ↑</em></div></div>
+      <div class="vital"><div class="vital-top">SpO₂</div><div class="vital-value" id="spo2">88 <em>% ↓</em></div></div>
+      <div class="vital"><div class="vital-top">Respiratory Rate</div><div class="vital-value" id="rr">28 <em>/min ↑</em></div></div>
+      <div class="vital"><div class="vital-top">Blood Pressure</div><div class="vital-value" id="bp">142/90 <em>mmHg</em></div></div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <div class="hero-foot"><span>Research / Clinical Decision Support Prototype</span><span>eICU-CRD Derived Replay</span><span>Scroll to explore ↓</span></div>
+ </div>
+</section>
+
+<section id="capabilities">
+ <div class="shell">
+  <div class="section-head reveal"><div class="section-kicker">Built for continuous care</div><h2>From raw signals to actionable clinical context.</h2><p>CarePulse turns multi-parameter physiological streams into a continuously updated patient state, predictive risk and explainable early-warning alerts.</p></div>
+  <div class="capabilities">
+   <article class="cap reveal"><div class="cap-icon">⌁</div><h3>Real-Time Monitoring</h3><p>Continuous physiological ingestion with edge validation and low-latency state updates.</p><a href="#monitoring">Explore →</a></article>
+   <article class="cap reveal"><div class="cap-icon">◈</div><h3>Predictive AI</h3><p>LSTM sequence modeling over recent multi-vital windows for deterioration-risk prediction.</p><a href="#architecture">See model →</a></article>
+   <article class="cap reveal"><div class="cap-icon">✦</div><h3>Explainable Insights</h3><p>Risk is accompanied by the trends and vital changes that contributed to the current state.</p><a href="#alerts">View example →</a></article>
+   <article class="cap reveal"><div class="cap-icon">♢</div><h3>Smart Alerts</h3><p>Severity-tiered alerts help prioritize attention without turning every abnormal reading into an alarm.</p><a href="#alerts">See alerts →</a></article>
+  </div>
+ </div>
+</section>
+
+<section id="monitoring" class="live-section">
+ <div class="shell">
+  <div class="live-panel reveal">
+   <div class="panel-head"><div><div class="panel-title">Live Patient Overview</div><div class="panel-sub">eICU historical replay · continuously updated state</div></div><div class="panel-live"><span class="dot"></span> Live Stream</div></div>
+   <div class="analytics-grid">
+    <div class="chart-card"><div class="chart-title">Risk Trend · Last 6 Hours</div><div class="chart-big" id="riskBig">78% <span>HIGH</span></div><svg class="chart-svg" viewBox="0 0 500 150" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7657ff" stop-opacity=".48"/><stop offset="1" stop-color="#7657ff" stop-opacity="0"/></linearGradient></defs><path d="M0 130 C40 120 55 125 90 105 S135 110 165 91 S200 100 230 74 S275 83 305 65 S350 76 380 47 S420 58 450 27 S480 40 500 10 L500 150 L0 150Z" fill="url(#area)"/><path d="M0 130 C40 120 55 125 90 105 S135 110 165 91 S200 100 230 74 S275 83 305 65 S350 76 380 47 S420 58 450 27 S480 40 500 10" fill="none" stroke="#a38dff" stroke-width="3"/></svg></div>
+    <div class="chart-card"><div class="chart-title">Vital Signals · Recent Window</div><svg class="chart-svg" viewBox="0 0 500 180" preserveAspectRatio="none"><path d="M0 75 C45 63 65 82 95 70 S145 82 180 68 S220 74 250 65 S300 72 330 56 S370 69 400 50 S450 59 500 38" fill="none" stroke="#ff6670" stroke-width="3"/><path d="M0 112 C50 100 70 116 100 105 S150 112 185 100 S230 107 260 95 S300 102 335 91 S375 96 410 83 S455 90 500 78" fill="none" stroke="#4a9dff" stroke-width="3"/><path d="M0 135 C50 127 75 140 105 128 S150 134 185 122 S230 130 265 117 S310 125 345 113 S390 120 425 108 S465 115 500 103" fill="none" stroke="#38d49c" stroke-width="3"/></svg><div style="display:flex;gap:14px;font-size:9px;color:#7e8595"><span style="color:#ff6670">● HR</span><span style="color:#4a9dff">● SpO₂</span><span style="color:#38d49c">● RR</span></div></div>
+    <div class="chart-card explain"><h4>Why is risk high?</h4><div class="factor"><b>↓</b><span><strong>SpO₂ declining</strong><br>96% → 88% in the recent window</span></div><div class="factor warn"><b>↑</b><span><strong>Respiratory rate increasing</strong><br>16 → 28 /min</span></div><div class="factor warn"><b>↑</b><span><strong>Heart rate above baseline</strong><br>72 → 112 bpm</span></div><a class="btn light" href="#alerts" style="margin-top:12px;font-size:10px;padding:9px 12px">View full explanation →</a></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="architecture" class="arch">
+ <div class="shell">
+  <div class="section-head reveal"><div class="section-kicker">System architecture</div><h2>One continuous path from signal to decision.</h2><p>Designed as a streaming research platform: validated events flow through Kafka, inference, state management and explainable alerting before reaching the live dashboard.</p></div>
+  <div class="architecture reveal">
+   <div class="arch-node"><div class="arch-icon">⌁</div><h4>Edge / IoMT</h4><p>Validation and fast anomaly screening</p></div><div class="arrow">→</div>
+   <div class="arch-node"><div class="arch-icon">◆</div><h4>Kafka Stream</h4><p>Durable ordered event ingestion</p></div><div class="arrow">→</div>
+   <div class="arch-node"><div class="arch-icon">ϟ</div><h4>FastAPI</h4><p>REST + WebSocket orchestration</p></div><div class="arrow">→</div>
+   <div class="arch-node"><div class="arch-icon">✦</div><h4>AI / ML Engine</h4><p>LSTM risk + explanation</p></div><div class="arrow">→</div>
+   <div class="arch-node"><div class="arch-icon">▣</div><h4>PostgreSQL</h4><p>Historical vitals and alerts</p></div><div class="arrow">→</div>
+   <div class="arch-node"><div class="arch-icon">◇</div><h4>Redis</h4><p>Low-latency health state</p></div><div class="arrow">→</div>
+   <div class="arch-node"><div class="arch-icon">▤</div><h4>Dashboard</h4><p>Live clinician visualization</p></div>
+  </div>
+  <div class="metrics reveal">
+   <div class="metric"><div class="metric-number" data-target="0.844">0.000</div><div class="metric-label">ROC-AUC · eICU demo</div></div>
+   <div class="metric"><div class="metric-number" data-target="0.603">0.000</div><div class="metric-label">F1 Score · eICU demo</div></div>
+   <div class="metric"><div class="metric-number" data-target="0">0</div><div class="metric-label">ms · not yet measured</div></div>
+   <div class="metric"><div class="metric-number" data-target="24">0</div><div class="metric-label">hour sequence window</div></div>
+  </div>
+ </div>
+</section>
+
+<section id="alerts" class="alert-section">
+ <div class="shell">
+  <div class="section-head reveal"><div class="section-kicker">Explainable alerting</div><h2>Every warning comes with a reason.</h2><p>CarePulse separates severity from raw thresholds and presents the physiological trends behind a rising risk score.</p></div>
+  <div class="alert-grid">
+   <article class="alert-card high reveal"><div class="alert-top"><span class="severity high">HIGH · ACTIVE</span><span class="alert-time">02:41:18 ago</span></div><h3>Deterioration risk is rising</h3><p>Sequence model estimates elevated short-term risk based on the recent vital-sign window.</p><div class="alert-factor-list"><span class="tag">SpO₂ ↓ 8%</span><span class="tag">RR ↑ 12/min</span><span class="tag">HR ↑ 40 bpm</span></div></article>
+   <article class="alert-card medium reveal"><div class="alert-top"><span class="severity medium">MEDIUM · WATCH</span><span class="alert-time">08:14:03 ago</span></div><h3>Persistent respiratory pattern</h3><p>Respiratory rate remains above the patient's recent baseline across consecutive observations.</p><div class="alert-factor-list"><span class="tag">RR persistence</span><span class="tag">Trend detected</span><span class="tag">Review recommended</span></div></article>
+  </div>
+ </div>
+</section>
+
+<section id="about" class="about">
+ <div class="shell">
+  <div class="about-grid">
+   <div class="about-visual reveal"><div class="data-chip chip1">SEQUENCE WINDOW · 24H</div><div class="data-chip chip2">RISK ENGINE · LSTM</div><div class="data-chip chip3">STREAM · KAFKA</div><div class="data-chip chip4">STATE · REDIS</div><div class="orb">PATIENT<br>STATE</div></div>
+   <div class="about-copy reveal"><div class="section-kicker">Built as a research prototype</div><h2>Monitor the <span>trend.</span><br>Understand the <span>risk.</span></h2><p>CarePulse Twin is a clinical decision-support research platform built to demonstrate how streaming infrastructure and sequence modeling can turn physiological time-series into a continuously updated, explainable health state.</p><div class="about-list"><div><strong>Data</strong>eICU-CRD derived physiological signals</div><div><strong>Model</strong>PyTorch LSTM sequence prediction</div><div><strong>Streaming</strong>Kafka + FastAPI event pipeline</div><div><strong>Scope</strong>Research / decision support, not diagnosis</div></div></div>
+  </div>
+ </div>
+</section>
+
+<section class="cta">
+ <div class="shell"><div class="cta-panel reveal"><div class="section-kicker" style="color:#a38dff">Explore the system</div><h2>See how CarePulse turns signals into decisions.</h2><p>Explore the live monitoring flow, risk engine, explainability layer and streaming architecture in one interactive experience.</p><button class="btn primary open-modal">Request a Demo ↗</button></div></div>
+</section>
+</main>
+
+<footer>
+ <div class="shell">
+  <div class="footer-grid">
+   <div class="footer-brand"><a href="#home" class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12h4l2-5 4 10 2-6 2 3h6"/></svg></span>CarePulse Twin</a><p>Real-time monitoring, predictive health and explainable decisions — built as a research and clinical decision-support prototype.</p></div>
+   <div class="footer-col"><h4>Platform</h4><a href="#monitoring">Monitoring</a><a href="#architecture">Architecture</a><a href="#alerts">Alerts</a><a href="#about">About</a></div>
+   <div class="footer-col"><h4>Technology</h4><a href="#architecture">Kafka</a><a href="#architecture">FastAPI</a><a href="#architecture">PyTorch</a><a href="#architecture">Redis</a></div>
+   <div class="footer-col"><h4>Project</h4><a href="#about">Research Scope</a><a href="#home">eICU-CRD</a><a href="#alerts">Explainability</a><button class="open-modal" style="color:#a0a6b5;font-size:11px;margin-top:10px">Contact →</button></div>
+  </div>
+  <div class="copyright"><span>© 2026 CarePulse Twin. Research prototype.</span><span>Not an autonomous diagnostic system.</span></div>
+ </div>
+</footer>
+
+<div class="modal-backdrop" id="modal">
+ <div class="modal">
+  <div class="modal-head"><div class="section-kicker" style="margin:0">CarePulse Twin</div><button class="close" id="closeModal">×</button></div>
+  <h2>Explore the project.</h2><p>Leave a note and we'll simulate a demo request. This form is intentionally a frontend prototype and does not transmit data.</p>
+  <form id="demoForm"><div class="field"><label>Name</label><input required placeholder="Your name"></div><div class="field"><label>Email</label><input required type="email" placeholder="you@example.com"></div><div class="field"><label>Message</label><textarea required placeholder="What would you like to explore?"></textarea></div><div class="modal-actions"><button class="btn primary">Send request ↗</button></div></form>
+ </div>
+</div>
+<div class="toast" id="toast">Demo request received — this is a local prototype.</div>
+
+<script>
+const qs=s=>document.querySelector(s), qsa=s=>[...document.querySelectorAll(s)];
+const modal=qs('#modal');
+qsa('.open-modal').forEach(b=>b.addEventListener('click',()=>modal.classList.add('open')));
+qs('#closeModal').addEventListener('click',()=>modal.classList.remove('open'));
+modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
+qs('#demoForm').addEventListener('submit',e=>{e.preventDefault();modal.classList.remove('open');qs('#toast').classList.add('show');e.target.reset();setTimeout(()=>qs('#toast').classList.remove('show'),3000)});
+
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');observer.unobserve(e.target)}}),{threshold:.12});
+qsa('.reveal').forEach((el,i)=>{el.style.transitionDelay=(Math.min(i%5,4)*70)+'ms';observer.observe(el)});
+
+qsa('.navlinks a').forEach(a=>a.addEventListener('click',()=>{qsa('.navlinks a').forEach(x=>x.classList.remove('active'));a.classList.add('active')}));
+const sections=qsa('main section[id]');
+const navObs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){qsa('.navlinks a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-35% 0px -55% 0px'});
+sections.forEach(s=>navObs.observe(s));
+
+let demoRisk=78;
+setInterval(()=>{
+ demoRisk += (Math.random()-.52)*2.4;
+ demoRisk=Math.max(62,Math.min(88,demoRisk));
+ const rounded=Math.round(demoRisk);
+ qs('#heroRisk').textContent=rounded+'%';
+ qs('#riskBig').innerHTML=rounded+'% <span>HIGH</span>';
+},1800);
+
+let connected=false;
+function connectBackend(){
+ const host=location.hostname||'localhost';
+ const wsUrl=`ws://${host}:8000/ws/patients/P001`;
+ try{
+  const ws=new WebSocket(wsUrl);
+  ws.onopen=()=>{connected=true};
+  ws.onmessage=e=>{
+   try{
+    const m=JSON.parse(e.data); if(m.type!=='state')return;
+    const d=m.data,v=d.vitals||{};
+    if(v.heart_rate!=null)qs('#hr').innerHTML=Math.round(v.heart_rate)+' <em>bpm</em>';
+    if(v.spo2!=null)qs('#spo2').innerHTML=Math.round(v.spo2)+' <em>%</em>';
+    if(v.respiratory_rate!=null)qs('#rr').innerHTML=Math.round(v.respiratory_rate)+' <em>/min</em>';
+    if(v.systolic_bp!=null)qs('#bp').innerHTML=Math.round(v.systolic_bp)+'/'+Math.round(v.diastolic_bp)+' <em>mmHg</em>';
+    if(d.risk!=null){const r=Math.round(d.risk*100);qs('#heroRisk').textContent=r+'%';qs('#riskBig').innerHTML=r+'% <span>'+d.severity+'</span>'}
+   }catch{}
+  };
+  ws.onclose=()=>{connected=false;setTimeout(connectBackend,4000)};
+ }catch{}
+}
+connectBackend();
+
+qsa('[data-target]').forEach(el=>{
+ const target=parseFloat(el.dataset.target), decimal=target<1;
+ const obs=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;obs.unobserve(el);let t0=performance.now();
+  const run=now=>{let p=Math.min(1,(now-t0)/1200),ease=1-Math.pow(1-p,3),v=target*ease;el.textContent=decimal?v.toFixed(3):Math.round(v);if(p<1)requestAnimationFrame(run)};
+  requestAnimationFrame(run);
+ }),{threshold:.5});obs.observe(el);
+});
+</script>
+</body>
+</html>
